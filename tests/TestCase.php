@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Invoices\Tests;
 
+use Barryvdh\DomPDF\ServiceProvider;
 use EscolaLms\Cart\CartServiceProvider;
 use EscolaLms\Core\Models\User;
 use EscolaLms\Invoices\EscolaLmsInvoicesServiceProvider;
@@ -23,6 +24,7 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
             EscolaLmsInvoicesServiceProvider::class,
             CartServiceProvider::class,
             InvoiceServiceProvider::class,
+            ServiceProvider::class,
         ];
     }
 
