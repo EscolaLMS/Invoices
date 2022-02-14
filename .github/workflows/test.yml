@@ -78,6 +78,9 @@ jobs:
       - name: Publish things
         run: vendor/bin/testbench migrate:fresh
 
+      - name: Invoices install
+        run: vendor/bin/testbench invoices:install
+
       - name: Run tests
         run: vendor/bin/phpunit
 
