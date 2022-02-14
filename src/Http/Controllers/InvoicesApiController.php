@@ -24,6 +24,6 @@ class InvoicesApiController extends EscolaLmsBaseController implements InvoicesA
      */
     public function read(InvoicesReadRequest $request): Response
     {
-        return $this->invoicesService->getInvoices($request->getOrder())->stream();
+        return $this->invoicesService->createInvoice($request->getOrder())->stream();
     }
 }

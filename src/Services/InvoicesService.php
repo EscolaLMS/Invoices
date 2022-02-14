@@ -15,15 +15,15 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 class InvoicesService implements InvoicesServiceContract
 {
-    public function saveInvoices(Order $order): string
+    public function saveInvoice(Order $order): string
     {
-        $invoice = $this->getInvoices($order);
+        $invoice = $this->createInvoice($order);
         $invoice->save('public');
 
         return $invoice->filename;
     }
 
-    public function getInvoices(Order $order): InvoiceModel
+    public function createInvoice(Order $order): InvoiceModel
     {
         $customer = $this->prepareCustomer($order);
         $items = $this->prepareProducts($order->items);

@@ -42,7 +42,7 @@ class InvoicesServiceTest extends TestCase
 
     public function testSaveInvoices(): void
     {
-        $response = $this->service->saveInvoices($this->order);
+        $response = $this->service->saveInvoice($this->order);
 
         $this->assertFileExists(storage_path('app/public').'/'.$response);
     }
