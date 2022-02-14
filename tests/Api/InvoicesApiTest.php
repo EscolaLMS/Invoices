@@ -26,7 +26,7 @@ class InvoicesApiTest extends TestCase
         $this->admin =  $this->makeAdmin();
         $this->user =  $this->makeStudent();
         $this->user2 =  $this->makeStudent();
-        $this->order = Order::factory()->for($this->user)->create();;
+        $this->order = Order::factory()->for($this->user)->create();
     }
 
     public function testCanReadInvoices(): void
