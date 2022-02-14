@@ -5,7 +5,7 @@ return [
         /*
          * Carbon date format
          */
-        'format' => 'Y-m-d',
+        'format' => 'd-m-Y',
         /*
          * Due date for payment since invoice's date.
          */
@@ -28,15 +28,15 @@ return [
     ],
 
     'currency' => [
-        'code' => 'eur',
+        'code' => 'PLN',
         /*
          * Usually cents
          * Used when spelling out the amount and if your currency has decimals.
          *
          * Example: Amount in words: Eight hundred fifty thousand sixty-eight EUR and fifteen ct.
          */
-        'fraction' => 'ct.',
-        'symbol'   => '€',
+        'fraction' => 'gr',
+        'symbol'   => 'zł',
         /*
          * Example: 19.00
          */
@@ -44,12 +44,12 @@ return [
         /*
          * Example: 1.99
          */
-        'decimal_point' => '.',
+        'decimal_point' => ',',
         /*
          * By default empty.
          * Example: 1,999.00
          */
-        'thousands_separator' => '',
+        'thousands_separator' => ' ',
         /*
          * Supported tags {VALUE}, {SYMBOL}, {CODE}
          * Example: 1.99 €
@@ -65,6 +65,8 @@ return [
 
     'disk' => 'local',
 
+    'logo' => 'vendor/invoices/sample-logo.png',
+
     'seller' => [
         /*
          * Class used in templates via $invoice->seller
@@ -78,8 +80,8 @@ return [
          * Default attributes for Seller::class
          */
         'attributes' => [
-            'name'          => 'Towne, Smith and Ebert',
-            'address'       => '89982 Pfeffer Falls Damianstad, CO 66972-8160',
+            'name'          => 'Escola',
+            'address'       => 'Chłodna 22A, 00-891 Warszawa',
             'code'          => '41-1985581',
             'vat'           => '123456789',
             'phone'         => '760-355-3930',

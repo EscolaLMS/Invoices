@@ -6,9 +6,7 @@ use LaravelDaily\Invoices\Invoice;
 
 interface InvoicesServiceContract
 {
-    public function sandInvoices(Order $order): void;
-
-    public function saveInvoices(Order $order): void;
+    public function saveInvoices(Order $order): string;
 
     public function getInvoices(Order $order): Invoice;
 }

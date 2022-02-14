@@ -6,6 +6,7 @@ use EscolaLms\Cart\Models\Order;
 use EscolaLms\Cart\Models\OrderItem;
 use EscolaLms\Invoices\Services\Contracts\InvoicesServiceContract;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Config;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Facades\Invoice;
 use LaravelDaily\Invoices\Invoice as InvoiceModel;
@@ -14,18 +15,12 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 class InvoicesService implements InvoicesServiceContract
 {
-    public function sandInvoices(Order $order): void
+    public function saveInvoices(Order $order): string
     {
         $invoice = $this->getInvoices($order);
-
-        $link = $invoice->url();
-    }
-
-    public function saveInvoices(Order $order): void
-    {
-        $invoice = $this->getInvoices($order);
-
         $invoice->save('public');
+
+        return $invoice->filename;
     }
 
     public function getInvoices(Order $order): InvoiceModel
@@ -40,7 +35,7 @@ class InvoicesService implements InvoicesServiceContract
             ->buyer($customer)
             ->addItems($items)
             ->notes($notes)
-            ->filename($customer->name.'_fv_'.$order->id);
+            ->filename($this->filter_filename($customer->name.'_fv_'.$order->id));
 
         return $invoice;
     }
@@ -49,32 +44,28 @@ class InvoicesService implements InvoicesServiceContract
     {
         $client = $this->prepareClient();
 
-        $invoice->series('BIG')
-            ->sequence(667)
-            ->serialNumberFormat('{SEQUENCE}/{SERIES}')
+        $invoice->series(Config::get('escolalms_invoices.config.serial_number.series') ?? 'TEST')
+            ->sequence(Config::get('escolalms_invoices.config.serial_number.sequence') ?? 667)
+            ->serialNumberFormat(Config::get('escolalms_invoices.config.serial_number.format') ?? '{SEQUENCE}/{SERIES}')
             ->seller($client)
-            ->date(now()->subWeeks(3)) //config
-            ->dateFormat('m/d/Y')
-            ->payUntilDays(14)
-            ->currencySymbol('$')
-            ->currencyCode('USD')
-            ->currencyFormat('{SYMBOL}{VALUE}')
-            ->currencyThousandsSeparator('.')
-            ->currencyDecimalPoint(',')
-            ->logo(public_path('vendor/invoices/sample-logo.png'));
+            ->dateFormat(Config::get('escolalms_invoices.config.date.format') ?? 'd-m-Y')
+            ->payUntilDays(Config::get('escolalms_invoices.config.date.pay_until_days') ?? 14)
+            ->currencySymbol(Config::get('escolalms_invoices.config.currency.symbol') ?? '$')
+            ->currencyFraction(Config::get('escolalms_invoices.config.currency.fraction') ?? '$')
+            ->currencyCode(Config::get('escolalms_invoices.config.currency.code') ?? 'USD')
+            ->currencyDecimals(Config::get('escolalms_invoices.config.currency.decimals') ?? 2)
+            ->currencyFormat(Config::get('escolalms_invoices.config.currency.format') ?? '{SYMBOL}{VALUE}')
+            ->currencyThousandsSeparator(Config::get('escolalms_invoices.config.currency.decimal_point') ?? '.')
+            ->currencyDecimalPoint(Config::get('escolalms_invoices.config.currency.thousands_separator') ?? ',')
+            ->logo(public_path(Config::get('escolalms_invoices.config.logo') ?? 'vendor/invoices/sample-logo.png'));
 
         return $invoice;
     }
 
     private function prepareClient(): Party
     {
-        return new Party([
-            'name'          => 'Roosevelt Lloyd',
-            'phone'         => '(520) 318-9486',
-            'custom_fields' => [
-                'note'        => 'IDDQD',
-                'business id' => '365#GG',
-            ],
+        return new Party(Config::get('escolalms_invoices.config.seller') ?? [
+            'name' => 'Escola',
         ]);
     }
 
@@ -94,7 +85,7 @@ class InvoicesService implements InvoicesServiceContract
     {
         $products = [];
         /** @var OrderItem $item */
-        /*foreach ($items as $item) {
+        foreach ($items as $item) {
             $products[] = (new InvoiceItem())
                 ->title($item->name ?? $item->title ?? $item->buyable->name ?? $item->buyable->title)
                 ->description($item->description ?? '')
@@ -103,39 +94,23 @@ class InvoicesService implements InvoicesServiceContract
                 ->discount($item->discount ?? 0);
         }
 
-        return $products;*/
-
-        $items = [
-            (new InvoiceItem())
-                ->title('Service 1')
-                ->description('Your product or service description')
-                ->pricePerUnit(47.79)
-                ->quantity(2)
-                ->discount(10),
-            (new InvoiceItem())->title('Service 2')->pricePerUnit(71.96)->quantity(2),
-            (new InvoiceItem())->title('Service 3')->pricePerUnit(4.56),
-            (new InvoiceItem())->title('Service 4')->pricePerUnit(87.51)->quantity(7)->discount(4)->units('kg'),
-            (new InvoiceItem())->title('Service 5')->pricePerUnit(71.09)->quantity(7)->discountByPercent(9),
-            (new InvoiceItem())->title('Service 6')->pricePerUnit(76.32)->quantity(9),
-            (new InvoiceItem())->title('Service 7')->pricePerUnit(58.18)->quantity(3)->discount(3),
-            (new InvoiceItem())->title('Service 8')->pricePerUnit(42.99)->quantity(4)->discountByPercent(3),
-            (new InvoiceItem())->title('Service 9')->pricePerUnit(33.24)->quantity(6)->units('m2'),
-            (new InvoiceItem())->title('Service 11')->pricePerUnit(97.45)->quantity(2),
-            (new InvoiceItem())->title('Service 12')->pricePerUnit(92.82),
-            (new InvoiceItem())->title('Service 13')->pricePerUnit(12.98),
-            (new InvoiceItem())->title('Service 14')->pricePerUnit(160)->units('hours'),
-            (new InvoiceItem())->title('Service 15')->pricePerUnit(62.21)->discountByPercent(5),
-            (new InvoiceItem())->title('Service 16')->pricePerUnit(2.80),
-            (new InvoiceItem())->title('Service 17')->pricePerUnit(56.21),
-            (new InvoiceItem())->title('Service 18')->pricePerUnit(66.81)->discountByPercent(8),
-            (new InvoiceItem())->title('Service 19')->pricePerUnit(76.37),
-            (new InvoiceItem())->title('Service 20')->pricePerUnit(55.80),
-        ];
-        return $items;
+        return $products;
     }
 
     private function prepareNote(Order $order): string
     {
         return $order->note ?? '';
+    }
+
+    private function filter_filename(string $name): string
+    {
+        $name = str_replace(array_merge(
+            array_map('chr', range(0, 31)),
+            array('<', '>', ':', '"', '/', '\\', '|', '?', '*', ' ')
+        ), '', $name);
+        $ext = pathinfo($name, PATHINFO_EXTENSION);
+        $name = mb_strcut(pathinfo($name, PATHINFO_FILENAME), 0, 255 - ($ext ? strlen($ext) + 1 : 0), mb_detect_encoding($name)) . ($ext ? '.' . $ext : '');
+
+        return $name;
     }
 }

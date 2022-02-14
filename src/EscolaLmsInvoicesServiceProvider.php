@@ -19,8 +19,6 @@ class EscolaLmsInvoicesServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
 
-        $this->mergeConfigFrom(__DIR__.'/config/invoices.php', 'invoices');
-
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
         }
@@ -33,5 +31,8 @@ class EscolaLmsInvoicesServiceProvider extends ServiceProvider
 
     protected function bootForConsole(): void
     {
+        $this->publishes([
+            __DIR__ . '/config.php' => config_path('invoices.php'),
+        ], 'escolalms_invoices.config');
     }
 }

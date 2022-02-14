@@ -9,33 +9,15 @@ interface InvoicesApiContract
 {
     /**
      * @OA\Get(
-     *     path="/api/questionnaire/{model_type_title}/{model_id}/{id}",
-     *     summary="Read a questionnaire identified by a given id identifier and model",
-     *     tags={"Questionnaire"},
+     *     path="/api/invoices/{id}",
+     *     summary="Get invoice identified by a given id identifier of order",
+     *     tags={"Invoices"},
      *     security={
      *         {"passport": {}},
      *     },
      *     @OA\Parameter(
-     *         name="model_type_title",
-     *         description="Name of Model (Course, Webinar etd.)",
-     *         @OA\Schema(
-     *            type="string",
-     *         ),
-     *         required=true,
-     *         in="path"
-     *     ),
-     *     @OA\Parameter(
-     *         name="model_id",
-     *         description="id of Model (Course, Webinar etd.)",
-     *         @OA\Schema(
-     *            type="integer",
-     *         ),
-     *         required=true,
-     *         in="path"
-     *     ),
-     *     @OA\Parameter(
      *         name="id",
-     *         description="id of Questionnaire",
+     *         description="id of Order",
      *         @OA\Schema(
      *            type="integer",
      *         ),
@@ -45,7 +27,6 @@ interface InvoicesApiContract
      *     @OA\Response(
      *         response=200,
      *         description="",
-     *         @OA\JsonContent(ref="#/components/schemas/Questionnaire")
      *      ),
      *     @OA\Response(
      *          response=401,
