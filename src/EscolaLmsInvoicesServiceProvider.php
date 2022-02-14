@@ -27,6 +27,8 @@ class EscolaLmsInvoicesServiceProvider extends ServiceProvider
     public function register()
     {
         parent::register();
+
+        $this->mergeConfigFrom(__DIR__ . '/config.php', 'escolalms_invoices');
     }
 
     protected function bootForConsole(): void
