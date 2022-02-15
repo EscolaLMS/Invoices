@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 
 class InvoicesReadRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return Gate::allows('view', $this->getOrder());
     }

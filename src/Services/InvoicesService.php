@@ -7,7 +7,6 @@ use EscolaLms\Cart\Models\OrderItem;
 use EscolaLms\Invoices\Services\Contracts\InvoicesServiceContract;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Config;
-use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Facades\Invoice;
 use LaravelDaily\Invoices\Invoice as InvoiceModel;
 use LaravelDaily\Invoices\Classes\Party;
@@ -44,29 +43,29 @@ class InvoicesService implements InvoicesServiceContract
     {
         $client = $this->prepareClient();
 
-        $invoice->series(Config::get('invoices.serial_number.series') ?? 'TEST')
-            ->sequence(Config::get('invoices.serial_number.sequence') ?? 667)
-            ->serialNumberFormat(Config::get('invoices.serial_number.format') ?? '{SEQUENCE}/{SERIES}')
+        $invoice->series(Config::get('invoices.serial_number.series', 'TEST'))
+            ->sequence(Config::get('invoices.serial_number.sequence', 667))
+            ->serialNumberFormat(Config::get('invoices.serial_number.format', '{SEQUENCE}/{SERIES}'))
             ->seller($client)
-            ->dateFormat(Config::get('invoices.date.format') ?? 'd-m-Y')
-            ->payUntilDays(Config::get('invoices.date.pay_until_days') ?? 14)
-            ->currencySymbol(Config::get('invoices.currency.symbol') ?? '$')
-            ->currencyFraction(Config::get('invoices.currency.fraction') ?? '$')
-            ->currencyCode(Config::get('invoices.currency.code') ?? 'USD')
-            ->currencyDecimals(Config::get('invoices.currency.decimals') ?? 2)
-            ->currencyFormat(Config::get('invoices.currency.format') ?? '{SYMBOL}{VALUE}')
-            ->currencyThousandsSeparator(Config::get('invoices.currency.decimal_point') ?? '.')
-            ->currencyDecimalPoint(Config::get('invoices.currency.thousands_separator') ?? ',')
-            ->logo(public_path(Config::get('invoices.logo') ?? 'vendor/invoices/sample-logo.png'));
+            ->dateFormat(Config::get('invoices.date.format', 'd-m-Y'))
+            ->payUntilDays(Config::get('invoices.date.pay_until_days', 14))
+            ->currencySymbol(Config::get('invoices.currency.symbol', '$'))
+            ->currencyFraction(Config::get('invoices.currency.fraction', '$'))
+            ->currencyCode(Config::get('invoices.currency.code', 'USD'))
+            ->currencyDecimals(Config::get('invoices.currency.decimals', 2))
+            ->currencyFormat(Config::get('invoices.currency.format', '{SYMBOL}{VALUE}'))
+            ->currencyThousandsSeparator(Config::get('invoices.currency.decimal_point', '.'))
+            ->currencyDecimalPoint(Config::get('invoices.currency.thousands_separator', ','))
+            ->logo(public_path(Config::get('invoices.logo', 'vendor/invoices/sample-logo.png')));
 
         return $invoice;
     }
 
     private function prepareClient(): Party
     {
-        return new Party(Config::get('invoices.seller') ?? [
+        return new Party(Config::get('invoices.seller', [
             'name' => 'Escola',
-        ]);
+        ]));
     }
 
     private function prepareCustomer(Order $order): Party
