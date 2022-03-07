@@ -6,7 +6,7 @@
     "php": "^7.4|^8.0",
     "escolalms/core": "^1.2.2",
     "escolalms/cart": "^0",
-    "laravel/framework": "^8.0",
+    "laravel/framework": "^8|^9",
     "laraveldaily/laravel-invoices": "^2.2"
   },
   "require-dev": {
