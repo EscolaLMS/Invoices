@@ -3,7 +3,7 @@
 namespace EscolaLms\Invoices\Tests;
 
 use Barryvdh\DomPDF\ServiceProvider;
-use EscolaLms\Cart\CartServiceProvider;
+use EscolaLms\Cart\EscolaLmsCartServiceProvider;
 use EscolaLms\Core\Models\User;
 use EscolaLms\Invoices\EscolaLmsInvoicesServiceProvider;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -22,7 +22,7 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
             PassportServiceProvider::class,
             PermissionServiceProvider::class,
             EscolaLmsInvoicesServiceProvider::class,
-            CartServiceProvider::class,
+            EscolaLmsCartServiceProvider::class,
             InvoiceServiceProvider::class,
             ServiceProvider::class,
         ];
