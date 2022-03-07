@@ -4,6 +4,7 @@ namespace EscolaLms\Invoices\Tests;
 
 use Barryvdh\DomPDF\ServiceProvider;
 use EscolaLms\Cart\EscolaLmsCartServiceProvider;
+use EscolaLms\Cart\Tests\Mocks\ExampleProductableMigration;
 use EscolaLms\Core\Models\User;
 use EscolaLms\Invoices\EscolaLmsInvoicesServiceProvider;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -32,5 +33,8 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
     {
         $app['config']->set('auth.providers.users.model', User::class);
         $app['config']->set('passport.client_uuids', true);
+        $app['config']->set('app.debug', env('APP_DEBUG', true));
+
+        ExampleProductableMigration::run();
     }
 }
