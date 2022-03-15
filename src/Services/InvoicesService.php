@@ -71,10 +71,13 @@ class InvoicesService implements InvoicesServiceContract
     private function prepareCustomer(Order $order): Party
     {
         return new Party([
-            'name' => $order->first_name ?? $order->user->first_name . " " . $order->last_name ?? $order->user->last_name,
-            'address' => $order->address ?? '',
-            'code' => $order->post_code ?? '',
+            'name' => $order->client_name ?? $order->client_company ?? ($order->user->first_name . " " . $order->last_name) ?? '',
+            'vat' => $order->client_taxid ?? '',
+            'street' => $order->client_street ?? '',
+            'code' => $order->client_postal ?? '',
             'custom_fields' => [
+                'city' => $order->client_city ?? '',
+                'country' => $order->client_country ?? '',
                 'order number' => $order->id,
             ],
         ]);
