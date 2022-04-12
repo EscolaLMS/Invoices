@@ -11,7 +11,13 @@ Package for generate pdf invoice from order
 [![downloads](https://img.shields.io/packagist/v/escolalms/invoices)](https://packagist.org/packages/escolalms/invoices)
 [![downloads](https://img.shields.io/packagist/l/escolalms/invoices)](https://packagist.org/packages/escolalms/invoices)
 
+## What does it do
+
 This package is adapter for EscolaLMS to create pdf invoice by <a href="https://github.com/LaravelDaily/laravel-invoices" target="_blank">`laraveldaily/laravel-invoices`</a>
+
+## Installing
+
+- `composer require escolalms/invoices`
 
 ## Config
 
@@ -115,6 +121,38 @@ return [
 ];
 ```
 
-## Testing
+## Example or Tutorial
 
-To run use `./vendor/bin/phpunit`
+
+## Endpoints
+
+[![swagger](https://img.shields.io/badge/documentation-swagger-green)](https://escolalms.github.io/Invoices/)
+
+## Tests
+
+Run `./vendor/bin/phpunit` to run tests. See [tests](tests) folder as it's quite good staring point as documentation appendix.
+
+Test details [![codecov](https://codecov.io/gh/EscolaLMS/Invoices/branch/main/graph/badge.svg?token=O91FHNKI6R)](https://codecov.io/gh/EscolaLMS/Invoices) [![Tests PHPUnit in environments](https://github.com/EscolaLMS/Invoices/actions/workflows/test.yml/badge.svg)](https://github.com/EscolaLMS/Invoices/actions/workflows/test.yml)
+
+## Events
+
+This package does not dispatch any events.
+
+## Listeners
+
+This package does not listen for any events
+
+## How to use this on frontend.
+
+### Admin panel
+
+...
+
+### Front Application
+
+...
+
+## Permissions
+
+- <a href="https://i.imgur.com/AoXsisJ.png">`view`</a> from `escolalms/cart` to get invoice pdf
+
