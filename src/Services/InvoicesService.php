@@ -28,50 +28,20 @@ class InvoicesService implements InvoicesServiceContract
         $items = $this->prepareProducts($order->items);
         $notes = $this->prepareNote($order);
 
-        $invoice = $this->setParamsFromConfig(Invoice::make());
-
-        $invoice->status($order->status_name)
+        return Invoice::make()
+            ->status($order->status_name)
             ->buyer($customer)
+            ->sequence($order->getKey())
+            ->date($order->created_at)
             ->addItems($items)
             ->notes($notes)
-            ->filename($this->filter_filename($customer->name.'_fv_'.$order->id));
-
-        return $invoice;
-    }
-
-    private function setParamsFromConfig(InvoiceModel $invoice): InvoiceModel
-    {
-        $client = $this->prepareClient();
-
-        $invoice->series(Config::get('invoices.serial_number.series', 'TEST'))
-            ->sequence(Config::get('invoices.serial_number.sequence', 667))
-            ->serialNumberFormat(Config::get('invoices.serial_number.format', '{SEQUENCE}/{SERIES}'))
-            ->seller($client)
-            ->dateFormat(Config::get('invoices.date.format', 'd-m-Y'))
-            ->payUntilDays(Config::get('invoices.date.pay_until_days', 14))
-            ->currencySymbol(Config::get('invoices.currency.symbol', '$'))
-            ->currencyFraction(Config::get('invoices.currency.fraction', '$'))
-            ->currencyCode(Config::get('invoices.currency.code', 'USD'))
-            ->currencyDecimals(Config::get('invoices.currency.decimals', 2))
-            ->currencyFormat(Config::get('invoices.currency.format', '{SYMBOL}{VALUE}'))
-            ->currencyThousandsSeparator(Config::get('invoices.currency.decimal_point', '.'))
-            ->currencyDecimalPoint(Config::get('invoices.currency.thousands_separator', ','))
-            ->logo(public_path(Config::get('invoices.logo', 'vendor/invoices/sample-logo.png')));
-
-        return $invoice;
-    }
-
-    private function prepareClient(): Party
-    {
-        return new Party(Config::get('invoices.seller', [
-            'name' => 'Escola',
-        ]));
+            ->filename($this->filter_filename($customer->name . '_fv_' . $order->id));
     }
 
     private function prepareCustomer(Order $order): Party
     {
         return new Party([
-            'name' => $order->client_name ?? $order->client_company ?? ($order->user->first_name . " " . $order->last_name) ?? '',
+            'name' => $order->client_name ?? $order->client_company ?? ($order->user->first_name . ' ' . $order->last_name) ?? '',
             'vat' => $order->client_taxid ?? '',
             'street' => $order->client_street ?? '',
             'code' => $order->client_postal ?? '',

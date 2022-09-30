@@ -3,14 +3,14 @@
   "description": "Escola Headless LMS Invoices",
   "type": "package",
   "require": {
-    "php": "^7.4|^8.0",
-    "escolalms/core": "^1.2.2",
-    "escolalms/cart": "^0.3",
+    "php": ">=7.4",
+    "escolalms/core": "^1",
+    "escolalms/auth": "^0",
+    "escolalms/cart": "^0.4",
     "laravel/framework": "^8|^9",
     "laraveldaily/laravel-invoices": "^2.2"
   },
   "require-dev": {
-    "escolalms/auth": "^0.1.54",
     "phpunit/phpunit": "^9.0",
     "orchestra/testbench": ">=5.0"
   },
@@ -34,7 +34,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "EscolaLmsInvoicesServiceProvider"
+        "EscolaLms\\Invoices\\EscolaLmsInvoicesServiceProvider"
       ]
     }
   },

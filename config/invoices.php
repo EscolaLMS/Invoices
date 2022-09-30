@@ -28,15 +28,15 @@ return [
     ],
 
     'currency' => [
-        'code' => 'PLN',
+        'code' => env('PAYMENTS_DEFAULT_CURRENCY', 'USD'),
         /*
          * Usually cents
          * Used when spelling out the amount and if your currency has decimals.
          *
          * Example: Amount in words: Eight hundred fifty thousand sixty-eight EUR and fifteen ct.
          */
-        'fraction' => 'gr',
-        'symbol'   => 'zł',
+        'fraction' => env('INVOICES_CURRENCY_FRACTION', 'ct.'),
+        'symbol'   => env('INVOICES_CURRENCY_SYMBOL', '$'),
         /*
          * Example: 19.00
          */
