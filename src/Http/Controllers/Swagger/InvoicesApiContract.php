@@ -9,7 +9,7 @@ interface InvoicesApiContract
 {
     /**
      * @OA\Get(
-     *     path="/api/invoices/{id}",
+     *     path="/api/order-invoices/{id}",
      *     summary="Get invoice identified by a given id identifier of order",
      *     tags={"Invoices"},
      *     security={
