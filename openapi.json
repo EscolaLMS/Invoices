@@ -5,13 +5,13 @@
         "version": "0.0.1"
     },
     "paths": {
-        "/api/invoices/{id}": {
+        "/api/order-invoices/{id}": {
             "get": {
                 "tags": [
                     "Invoices"
                 ],
                 "summary": "Get invoice identified by a given id identifier of order",
-                "operationId": "8a66eec407c5b70581b0fcd9764c441b",
+                "operationId": "63eddfc072a57be34df6a1f19cabece8",
                 "parameters": [
                     {
                         "name": "id",
