@@ -53,35 +53,35 @@ class InvoicesApiTest extends TestCase
 
     public function testCanReadInvoices(): void
     {
-        $response = $this->actingAs($this->user, 'api')->getJson('api/invoices/'.$this->order->getKey());
+        $response = $this->actingAs($this->user, 'api')->getJson('api/order-invoices/'.$this->order->getKey());
 
         $response->assertOk();
     }
 
     public function testCannotFindMissingOrder(): void
     {
-        $response = $this->actingAs($this->user, 'api')->getJson('api/invoices/999999');
+        $response = $this->actingAs($this->user, 'api')->getJson('api/order-invoices/999999');
 
         $response->assertStatus(404);
     }
 
     public function testAdminCanReadInvoicesByOrderId(): void
     {
-        $response = $this->actingAs($this->admin, 'api')->getJson('api/invoices/'.$this->order->getKey());
+        $response = $this->actingAs($this->admin, 'api')->getJson('api/order-invoices/'.$this->order->getKey());
 
         $response->assertOk();
     }
 
     public function testOtherUsersCannotReadInvoicesOtherUser(): void
     {
-        $response = $this->actingAs($this->user2, 'api')->getJson('api/invoices/'.$this->order->getKey());
+        $response = $this->actingAs($this->user2, 'api')->getJson('api/order-invoices/'.$this->order->getKey());
 
         $response->assertForbidden();
     }
 
     public function testGuestCannotReadInvoices(): void
     {
-        $response = $this->getJson('api/invoices/'.$this->order->getKey());
+        $response = $this->getJson('api/order-invoices/'.$this->order->getKey());
 
         $response->assertForbidden();
     }

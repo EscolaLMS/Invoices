@@ -28,13 +28,13 @@ class EscolaLmsInvoicesServiceProvider extends ServiceProvider
     {
         parent::register();
 
-        $this->mergeConfigFrom(__DIR__ . '/config.php', 'invoices');
+        $this->mergeConfigFrom(__DIR__ . '/../config/invoices.php', 'invoices');
     }
 
     protected function bootForConsole(): void
     {
         $this->publishes([
-            __DIR__ . '/config.php' => config_path('invoices.php'),
+            __DIR__ . '/../config/invoices.php' => config_path('invoices.php'),
         ], 'escolalms_invoices.config');
     }
 }
