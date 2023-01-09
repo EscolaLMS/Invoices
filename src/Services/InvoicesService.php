@@ -40,8 +40,13 @@ class InvoicesService implements InvoicesServiceContract
 
     private function prepareCustomer(Order $order): Party
     {
+        if ($order->client_taxid) {
+            $name = $order->client_company ?? $order->client_name ?? ($order->user->first_name . " " . $order->last_name) ?? '';
+        } else {
+            $name = $order->client_name ?? $order->client_company ?? ($order->user->first_name . " " . $order->last_name) ?? '';
+        }
         return new Party([
-            'name' => $order->client_name ?? $order->client_company ?? ($order->user->first_name . ' ' . $order->last_name) ?? '',
+            'name' => $name,
             'vat' => $order->client_taxid ?? '',
             'street' => $order->client_street ?? '',
             'code' => $order->client_postal ?? '',
