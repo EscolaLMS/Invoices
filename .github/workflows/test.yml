@@ -129,7 +129,7 @@ jobs:
 
     services:
       mysql:
-        image: mariadb
+        image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: database
@@ -192,4 +192,3 @@ jobs:
 
       - name: Run tests
         run: vendor/bin/phpunit
-### TODO add behat tests here
