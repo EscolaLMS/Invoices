@@ -6,9 +6,9 @@
     "php": ">=7.4",
     "escolalms/core": "^1",
     "escolalms/auth": "^0",
-    "escolalms/cart": "^0.4",
+    "escolalms/cart": "^0",
     "laravel/framework": ">=8.0",
-    "laraveldaily/laravel-invoices": "^2.2"
+    "laraveldaily/laravel-invoices": "^3"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.0",
