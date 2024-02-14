@@ -7,7 +7,7 @@
     "escolalms/core": "^1",
     "escolalms/auth": "^0",
     "escolalms/cart": "^0.4",
-    "laravel/framework": "^8|^9|^10|^11",
+    "laravel/framework": ">=8.0",
     "laraveldaily/laravel-invoices": "^2.2"
   },
   "require-dev": {
