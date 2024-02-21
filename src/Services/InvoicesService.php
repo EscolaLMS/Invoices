@@ -6,7 +6,6 @@ use EscolaLms\Cart\Models\Order;
 use EscolaLms\Cart\Models\OrderItem;
 use EscolaLms\Invoices\Services\Contracts\InvoicesServiceContract;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Config;
 use LaravelDaily\Invoices\Facades\Invoice;
 use LaravelDaily\Invoices\Invoice as InvoiceModel;
 use LaravelDaily\Invoices\Classes\Party;
@@ -29,12 +28,13 @@ class InvoicesService implements InvoicesServiceContract
         $notes = $this->prepareNote($order);
 
         return Invoice::make()
-            ->status($order->status_name)
+            ->status(__($order->status_name))
             ->buyer($customer)
             ->sequence($order->getKey())
             ->date($order->created_at)
             ->addItems($items)
             ->notes($notes)
+            ->template('invoice')
             ->filename($this->filter_filename($customer->name . '_fv_' . $order->id));
     }
 
