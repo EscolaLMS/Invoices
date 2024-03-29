@@ -26,8 +26,10 @@ class InvoicesService implements InvoicesServiceContract
         $customer = $this->prepareCustomer($order);
         $items = $this->prepareProducts($order->items);
         $notes = $this->prepareNote($order);
+        $name = $this->filter_filename($customer->name . '_fv_' . $order->id);
 
         return Invoice::make()
+            ->name($name)
             ->status(__($order->status_name))
             ->buyer($customer)
             ->sequence($order->getKey())
@@ -35,7 +37,7 @@ class InvoicesService implements InvoicesServiceContract
             ->addItems($items)
             ->notes($notes)
             ->template('invoice')
-            ->filename($this->filter_filename($customer->name . '_fv_' . $order->id));
+            ->filename($name);
     }
 
     private function prepareCustomer(Order $order): Party
@@ -45,14 +47,13 @@ class InvoicesService implements InvoicesServiceContract
         } else {
             $name = $order->client_name ?? $order->client_company ?? ($order->user->first_name . " " . $order->last_name) ?? '';
         }
+
         return new Party([
             'name' => $name,
             'vat' => $order->client_taxid ?? '',
-            'street' => $order->client_street ?? '',
-            'code' => $order->client_postal ?? '',
+            'address' => $order->client_street . ' ' . $order->client_postal . ' ' . $order->client_city,
             'custom_fields' => [
-                'city' => $order->client_city ?? '',
-                'country' => $order->client_country ?? '',
+                'country' => $order->client_country,
                 'order number' => $order->id,
             ],
         ]);
@@ -67,6 +68,7 @@ class InvoicesService implements InvoicesServiceContract
                 ->title($item->name ?? $item->title ?? $item->buyable->name ?? $item->buyable->title)
                 ->description($item->description ?? '')
                 ->pricePerUnit($item->price/100)
+                ->taxByPercent($item->tax_rate)
                 ->quantity($item->quantity)
                 ->discount($item->discount ?? 0);
         }
