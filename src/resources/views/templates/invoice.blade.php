@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>__({{ $invoice->name }})</title>
+    <title>{{ __($invoice->name) }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <style type="text/css" media="screen">
@@ -139,7 +139,7 @@
     <tr>
         <td class="border-0 pl-0" width="70%">
             <h4 class="text-uppercase">
-                <strong>{{ __($invoice->name) }}</strong>
+                <strong>{{ __('Invoice') }}</strong>
             </h4>
         </td>
         <td class="border-0 pl-0">
@@ -183,12 +183,6 @@
             </p>
             @endif
 
-            @if($invoice->seller->code)
-            <p class="seller-code">
-                {{ __('Postcode') }}: {{ $invoice->seller->code }}
-            </p>
-            @endif
-
             @if($invoice->seller->vat)
             <p class="seller-vat">
                 {{ __('VAT code') }}: {{ $invoice->seller->vat }}
@@ -218,12 +212,6 @@
             @if($invoice->buyer->address)
             <p class="buyer-address">
                 {{ __('Address') }}: {{ $invoice->buyer->address }}
-            </p>
-            @endif
-
-            @if($invoice->buyer->code)
-            <p class="buyer-code">
-                {{ __('Postcode') }}: {{ $invoice->buyer->code }}
             </p>
             @endif
 
