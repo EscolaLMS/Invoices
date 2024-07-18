@@ -14,7 +14,10 @@ class EscolaLmsInvoicesServiceProvider extends ServiceProvider
 {
     public const CONFIG_KEY = 'invoices';
 
-    public $bindings = [
+    /**
+     * @var array<class-string, class-string>
+     */
+    public array $bindings = [
         InvoicesServiceContract::class => InvoicesService::class,
     ];
 
