@@ -66,7 +66,6 @@ class InvoicesService implements InvoicesServiceContract
     }
 
     /**
-     * @param Collection<int, OrderItem> $items
      * @return array<int, InvoiceItem>
      */
     private function prepareProducts(Collection $items): array
