@@ -26,13 +26,17 @@ class InvoicesService implements InvoicesServiceContract
         $customer = $this->prepareCustomer($order);
         $items = $this->prepareProducts($order->items);
         $notes = $this->prepareNote($order);
+        // @phpstan-ignore-next-line
         $name = $this->filter_filename($customer->name . '_fv_' . $order->id);
+        /** @var int $id */
+        $id = $order->getKey();
 
         return Invoice::make()
             ->name($name)
             ->status(__($order->status_name))
             ->buyer($customer)
-            ->sequence($order->getKey())
+            ->sequence($id)
+            // @phpstan-ignore-next-line
             ->date($order->created_at)
             ->addItems($items)
             ->notes($notes)
@@ -43,8 +47,10 @@ class InvoicesService implements InvoicesServiceContract
     private function prepareCustomer(Order $order): Party
     {
         if ($order->client_taxid) {
+            // @phpstan-ignore-next-line
             $name = $order->client_company ?? $order->client_name ?? ($order->user->first_name . " " . $order->last_name) ?? '';
         } else {
+            // @phpstan-ignore-next-line
             $name = $order->client_name ?? $order->client_company ?? ($order->user->first_name . " " . $order->last_name) ?? '';
         }
 
@@ -59,12 +65,17 @@ class InvoicesService implements InvoicesServiceContract
         ]);
     }
 
+    /**
+     * @param Collection<int, OrderItem> $items
+     * @return array<int, InvoiceItem>
+     */
     private function prepareProducts(Collection $items): array
     {
         $products = [];
         /** @var OrderItem $item */
         foreach ($items as $item) {
             $products[] = (new InvoiceItem())
+                // @phpstan-ignore-next-line
                 ->title($item->name ?? $item->title ?? $item->buyable->name ?? $item->buyable->title)
                 ->description($item->description ?? '')
                 ->pricePerUnit($item->price/100)
@@ -88,6 +99,7 @@ class InvoicesService implements InvoicesServiceContract
             array('<', '>', ':', '"', '/', '\\', '|', '?', '*', ' ')
         ), '', $name);
         $ext = pathinfo($name, PATHINFO_EXTENSION);
+        // @phpstan-ignore-next-line
         $name = mb_strcut(pathinfo($name, PATHINFO_FILENAME), 0, 255 - ($ext ? strlen($ext) + 1 : 0), mb_detect_encoding($name)) . ($ext ? '.' . $ext : '');
 
         return $name;

@@ -20,6 +20,9 @@ class InvoicesReadRequest extends FormRequest
         $this->merge(['id' => $this->route('id')]);
     }
 
+    /**
+     * @return array<string, array<int, mixed>>
+     */
     public function rules(): array
     {
         return [
@@ -33,11 +36,15 @@ class InvoicesReadRequest extends FormRequest
 
     public function getParamId(): int
     {
-        return $this->route('id');
+        /** @var int $id */
+        $id = $this->route('id');
+        return $id;
     }
 
     public function getOrder(): Order
     {
-        return Order::findOrFail($this->getParamId());
+        /** @var Order $order */
+        $order = Order::findOrFail($this->getParamId());
+        return $order;
     }
 }
