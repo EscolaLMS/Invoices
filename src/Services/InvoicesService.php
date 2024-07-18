@@ -4,6 +4,7 @@ namespace EscolaLms\Invoices\Services;
 
 use EscolaLms\Cart\Models\Order;
 use EscolaLms\Cart\Models\OrderItem;
+use EscolaLms\Cart\Support\OrderItemCollection;
 use EscolaLms\Invoices\Services\Contracts\InvoicesServiceContract;
 use Illuminate\Database\Eloquent\Collection;
 use LaravelDaily\Invoices\Facades\Invoice;
@@ -66,6 +67,7 @@ class InvoicesService implements InvoicesServiceContract
     }
 
     /**
+     * @param OrderItemCollection|OrderItem[] $items
      * @return array<int, InvoiceItem>
      */
     private function prepareProducts(Collection $items): array
